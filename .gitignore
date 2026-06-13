@@ -1,14 +1,11 @@
 # Dependencies
-
 node_modules/
 
 # Build
-
 dist/
 build/
 
 # Environment Variables
-
 .env
 .env.local
 .env.development.local
@@ -16,28 +13,29 @@ build/
 .env.production.local
 
 # Firebase
-
 .firebaserc
 .firebase/
 
 # Logs
-
 selenium-tests/logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # IDE
-
 .idea/
 .vscode/
 
 # OS
-
 .DS_Store
 Thumbs.db
 
 # Cache
-
 *.swp
 *.swo
+
+# Testing Artifacts
+selenium-tests/screenshots/
+selenium-tests/reports/report.json
+selenium-tests/reports/*.pdf
+# Note: selenium-tests/reports/excel/report.xlsx is NOT ignored and is safe to push.
