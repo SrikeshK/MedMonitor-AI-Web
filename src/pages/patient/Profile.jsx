@@ -145,46 +145,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden">
-             <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-white">System Settings</h3>
-                <div className="relative">
-                  <GlowButton disabled className="h-9 px-4 text-xs opacity-50 cursor-not-allowed" data-testid="edit-profile-button">
-                    Edit Profile
-                  </GlowButton>
-                  <div className="absolute -top-2 -right-2 bg-primary-cyan/20 text-primary-cyan text-[7px] font-bold px-1 rounded border border-primary-cyan/30 uppercase">
-                    Soon
-                  </div>
-                </div>
-             </div>
-             <div className="divide-y divide-white/5">
-                {[
-                  { icon: Bell, label: 'Notification Preferences', sub: 'Manage medication and refill alerts', status: 'Enabled' },
-                  { icon: Shield, label: 'Privacy & Security', sub: 'Data encryption and access control', status: 'Secured' },
-                  { icon: Phone, label: 'Emergency Contacts', sub: 'Linked to Care Circle members', status: 'Configured' }
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => navigate('/patient/settings')}
-                    className="p-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors cursor-pointer group"
-                    data-testid={`setting-row-${idx}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="p-2.5 rounded-xl bg-white/5 text-slate-400 group-hover:text-primary-cyan transition-colors">
-                        <item.icon size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-white">{item.label}</p>
-                        <p className="text-xs text-slate-500">{item.sub}</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-bold text-primary-cyan uppercase tracking-widest bg-primary-cyan/5 px-2 py-1 rounded border border-primary-cyan/10">
-                      {item.status}
-                    </span>
-                  </div>
-                ))}
-             </div>
-          </div>
+
         </div>
       </div>
     </div>

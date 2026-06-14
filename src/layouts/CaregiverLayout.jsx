@@ -10,7 +10,6 @@ const navItems = [
   { icon: Users, label: 'Patients', path: '/caregiver/patients' },
   { icon: Bell, label: 'Alerts', path: '/caregiver/alerts' },
   { icon: BarChart3, label: 'Analytics', path: '/caregiver/analytics' },
-  { icon: FileText, label: 'Reports', path: '/caregiver/reports' },
 ];
 
 const CaregiverLayout = () => {
@@ -58,13 +57,7 @@ const CaregiverLayout = () => {
         </nav>
 
         <div className="pt-6 border-t border-white/5 relative">
-          <NavLink
-            to="/caregiver/settings"
-            className="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all mb-2"
-          >
-            <Settings size={20} />
-            <span className="font-medium">Settings</span>
-          </NavLink>
+
           <button
             onClick={logout}
             className="flex items-center gap-3 px-4 py-3 text-error/70 hover:text-error hover:bg-error/5 rounded-xl transition-all w-full"

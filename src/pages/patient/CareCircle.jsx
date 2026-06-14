@@ -154,12 +154,7 @@ const CareCircle = () => {
                   <div className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">
                     Last Alert: {member.lastAlertTime ? new Date(member.lastAlertTime).toLocaleDateString() : 'Never'}
                   </div>
-                  <button
-                    disabled
-                    className="text-slate-600 cursor-not-allowed text-[11px] font-bold uppercase tracking-widest flex items-center gap-1"
-                  >
-                    View Details <span className="text-[8px] bg-white/5 px-1 rounded">Soon</span>
-                  </button>
+
                 </div>
               </DashboardCard>
             </motion.div>

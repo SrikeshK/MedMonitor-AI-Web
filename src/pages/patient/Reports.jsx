@@ -356,32 +356,7 @@ const Reports = () => {
         </div>
       )}
 
-      {/* Historical Context */}
-      <section className="mt-16">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold text-white font-display tracking-tight">Report Archive</h2>
-            <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Previous Clinical Cycles</p>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white/[0.02] border border-white/5 border-dashed rounded-3xl p-12 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="p-5 bg-white/5 rounded-full relative">
-              <FileText className="w-10 h-10 text-slate-700" />
-              <div className="absolute -top-1 -right-1 bg-primary-cyan/20 text-primary-cyan text-[8px] font-bold px-1.5 py-0.5 rounded border border-primary-cyan/30 uppercase tracking-tighter">
-                Coming Soon
-              </div>
-            </div>
-            <div>
-              <p className="text-slate-400 font-bold">No Archived Reports</p>
-              <p className="text-[11px] text-slate-600 font-medium max-w-[200px] mt-2">
-                Historical snapshots will appear here as you progress through treatment cycles.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

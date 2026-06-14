@@ -219,15 +219,7 @@ const CaregiverAnalytics = () => {
             Comprehensive multi-patient performance analytics.
           </p>
         </div>
-        <div className="flex gap-3">
-          <button
-            disabled
-            className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-slate-500 cursor-not-allowed flex items-center gap-2"
-          >
-            <Calendar className="w-4 h-4" />
-            Last 30 Days <span className="text-[8px] bg-white/5 px-1 rounded">Soon</span>
-          </button>
-        </div>
+
       </div>
 
       {/* Top Level Stats */}

@@ -78,13 +78,7 @@ const Sidebar = () => {
       </nav>
 
       <div className="mt-auto space-y-2 pt-6 border-t border-white/5 relative z-10">
-        <NavLink
-          to="/patient/settings"
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.03] transition-all"
-        >
-          <Settings size={20} />
-          <span className="text-sm font-medium">Settings</span>
-        </NavLink>
+
         <button
           onClick={logout}
           className="flex items-center gap-3 px-4 py-3 rounded-xl text-error/60 hover:text-error hover:bg-error/5 transition-all w-full"

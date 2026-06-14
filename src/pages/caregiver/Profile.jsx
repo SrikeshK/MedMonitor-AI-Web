@@ -137,34 +137,7 @@ const CaregiverProfile = () => {
             </div>
           </div>
 
-          <div className="bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden">
-             <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-white">Administrative Settings</h3>
-                <GlowButton variant="secondary" className="h-9 px-4 text-xs">Update Profile</GlowButton>
-             </div>
-             <div className="divide-y divide-white/5">
-                {[
-                  { icon: Bell, label: 'Alert Configurations', sub: 'Critical patient notification logic', status: 'Optimal' },
-                  { icon: Shield, label: 'Security & Auth', sub: 'Two-factor and session management', status: 'High' },
-                  { icon: Users, label: 'Patient Access Rights', sub: 'Manage delegation and permissions', status: 'Managed' }
-                ].map((item, idx) => (
-                  <div key={idx} className="p-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2.5 rounded-xl bg-white/5 text-slate-400 group-hover:text-primary-purple transition-colors">
-                        <item.icon size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-white">{item.label}</p>
-                        <p className="text-xs text-slate-500">{item.sub}</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-bold text-primary-purple uppercase tracking-widest bg-primary-purple/5 px-2 py-1 rounded border border-primary-purple/10">
-                      {item.status}
-                    </span>
-                  </div>
-                ))}
-             </div>
-          </div>
+
         </div>
       </div>
     </div>

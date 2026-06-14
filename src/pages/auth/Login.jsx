@@ -73,16 +73,6 @@ const Login = () => {
           data-testid="login-password"
         />
 
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="text-sm text-slate-500 cursor-not-allowed flex items-center gap-2"
-            disabled
-          >
-            Forgot Password? <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded">Coming Soon</span>
-          </button>
-        </div>
-
         <GlowButton type="submit" loading={loading} data-testid="login-button">
           Sign In
         </GlowButton>

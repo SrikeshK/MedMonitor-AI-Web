@@ -122,21 +122,6 @@ const Inventory = () => {
           <p className="text-slate-400 mt-1 font-medium">Monitor your medication supplies and automate refill alerts.</p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="relative group">
-            <GlowButton
-              disabled
-              className="w-auto px-6 bg-slate-800 text-slate-500 border-white/5 cursor-not-allowed opacity-50"
-              data-testid="order-refills-button"
-            >
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              Order Refills
-            </GlowButton>
-            <div className="absolute -top-2 -right-2 bg-warning/20 text-warning text-[8px] font-bold px-1.5 py-0.5 rounded border border-warning/30 uppercase tracking-tighter">
-              Coming Soon
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Inventory Summary */}
@@ -270,17 +255,6 @@ const Inventory = () => {
                       </div>
                     </div>
 
-                    <GlowButton
-                      variant="outline"
-                      disabled
-                      className={cn(
-                        "h-10 py-0 text-xs mt-2 transition-all cursor-not-allowed opacity-50",
-                        isAlert ? "border-error/30 text-error" : "border-warning/30 text-warning"
-                      )}
-                      data-testid="quick-stock-add"
-                    >
-                      Quick Stock Add <span className="text-[8px] bg-white/5 px-1 rounded ml-1">Soon</span>
-                    </GlowButton>
                   </div>
                 </motion.div>
               );

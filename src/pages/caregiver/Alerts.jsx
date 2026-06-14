@@ -268,19 +268,7 @@ const CaregiverAlerts = () => {
                       >
                         <Phone className="w-5 h-5" />
                       </a>
-                      <div className="relative">
-                        <button
-                          disabled
-                          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 border border-white/5 text-slate-500 font-bold text-sm cursor-not-allowed opacity-50"
-                          data-testid="resolve-alert-btn"
-                        >
-                          Resolve
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                        <div className="absolute -top-2 -right-2 bg-primary-purple/20 text-primary-purple text-[7px] font-bold px-1 rounded border border-primary-purple/30 uppercase">
-                          Soon
-                        </div>
-                      </div>
+
                     </div>
                   </div>
 

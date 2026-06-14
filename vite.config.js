@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: '/MedMonitor-AI-Web/',
+export default defineConfig(({ command }) => ({
+  base: command === 'serve' ? '/' : '/MedMonitor-AI-Web/',
   plugins: [react()],
   server: {
     watch: {
@@ -36,4 +36,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

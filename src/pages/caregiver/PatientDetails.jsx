@@ -125,32 +125,7 @@ const PatientDetails = () => {
           <span className="font-medium">Back to Patients</span>
         </button>
 
-        <div className="flex gap-3">
-          <div className="relative">
-            <button
-              disabled
-              className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-slate-500 cursor-not-allowed opacity-50"
-              data-testid="export-report-btn"
-            >
-              Export Report
-            </button>
-            <div className="absolute -top-2 -right-2 bg-primary-purple/20 text-primary-purple text-[7px] font-bold px-1 rounded border border-primary-purple/30 uppercase">
-              Soon
-            </div>
-          </div>
-          <div className="relative">
-            <button
-              disabled
-              className="px-4 py-2 bg-slate-800 border border-white/5 rounded-xl text-sm text-slate-500 font-bold cursor-not-allowed opacity-50"
-              data-testid="emergency-contact-btn"
-            >
-              Contact Emergency
-            </button>
-            <div className="absolute -top-2 -right-2 bg-error/20 text-error text-[7px] font-bold px-1 rounded border border-error/30 uppercase">
-              Soon
-            </div>
-          </div>
-        </div>
+
       </div>
 
       {/* Hero Section */}
@@ -282,9 +257,7 @@ const PatientDetails = () => {
           <section>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold text-white">Adherence History</h3>
-              <button disabled className="text-xs text-slate-600 cursor-not-allowed flex items-center gap-1">
-                View Full Log <span className="text-[8px] bg-white/5 px-1 rounded">Soon</span>
-              </button>
+
             </div>
             {recentLogs.length > 0 ? (
               <div className="bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden" data-testid="patient-history">
@@ -399,12 +372,7 @@ const PatientDetails = () => {
                   <p className="text-sm text-white font-medium">{alert.medicineName}</p>
                   <div className="mt-2 flex items-center justify-between">
                     <span className="text-[10px] text-slate-500">Scheduled for {alert.slot || 'Unknown Slot'}</span>
-                    <button
-                      disabled
-                      className="text-[10px] text-slate-500 font-bold cursor-not-allowed"
-                    >
-                      Contact <span className="text-[7px] bg-white/5 px-1 rounded ml-1">Soon</span>
-                    </button>
+
                   </div>
                 </div>
               )) : (
