@@ -51,3 +51,15 @@ firebase deploy --only hosting
 - **Code Splitting**: Routes are lazy-loaded to reduce initial bundle size.
 - **Caching**: Static assets are configured with long-term caching in `firebase.json`.
 - **Minification**: Terser is used to strip console logs and minify code in production.
+
+## 6. GitHub Pages Deployment (Automated)
+
+The project includes a GitHub Actions CI/CD pipeline configured to run tests and deploy the compiled Vite bundle to GitHub Pages automatically upon successful pushes to the `main` or `master` branches.
+
+### Repository Configuration Setup
+To make sure the site is deployed correctly using GitHub Actions:
+1. Navigate to your repository on GitHub.
+2. Go to **Settings** -> **Pages** (under the "Code and automation" section).
+3. Under **Build and deployment** -> **Source**, select **GitHub Actions** from the dropdown menu (instead of "Deploy from a branch").
+
+The deployed website link is: `https://srikeshk.github.io/MedMonitor-AI-Web/`
