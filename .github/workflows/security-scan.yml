@@ -20,6 +20,9 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Install Dependencies
+        run: npm ci
+
       - name: Run Vulnerability Scan
         run: node scripts/security-scan.js
 
