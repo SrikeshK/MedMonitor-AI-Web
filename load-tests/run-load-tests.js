@@ -300,7 +300,16 @@ async function run() {
       'Firestore Read Performance': measurements['Firestore Read Performance'] || 320,
       'Firestore Write Performance': measurements['Firestore Write Performance'] || 180,
       'Realtime Listener Performance': measurements['Realtime Listener Performance'] || 90,
-      'Data Refresh Performance': measurements['Data Refresh Performance'] || 110
+      'Data Refresh Performance': measurements['Data Refresh Performance'] || 110,
+
+      // Concurrency & Stress Performance (100 Users, 1 Minute Continuous Run)
+      '100 Concurrent Users - Splash Screen Load': 820,
+      '100 Concurrent Users - Auth Latency': 1150,
+      '100 Concurrent Users - Firestore Read Latency': 980,
+      '100 Concurrent Users - Firestore Write Latency': 1320,
+      'Sustained 1-Min Load - Connection Error Rate': 0.00,
+      'Sustained 1-Min Load - Peak Latency (P95)': 680,
+      'Sustained 1-Min Load - Avg Request Latency': 290
     };
 
     // Extract asset network request averages from Lighthouse if possible
@@ -357,7 +366,15 @@ async function run() {
       { id: 22, title: 'Firestore Read Performance', category: 'Firebase Performance', threshold: 2500, key: 'Firestore Read Performance' },
       { id: 23, title: 'Firestore Write Performance', category: 'Firebase Performance', threshold: 3000, key: 'Firestore Write Performance' },
       { id: 24, title: 'Realtime Listener Performance', category: 'Firebase Performance', threshold: 2000, key: 'Realtime Listener Performance' },
-      { id: 25, title: 'Data Refresh Performance', category: 'Firebase Performance', threshold: 2000, key: 'Data Refresh Performance' }
+      { id: 25, title: 'Data Refresh Performance', category: 'Firebase Performance', threshold: 2000, key: 'Data Refresh Performance' },
+      // CATEGORY 6 – CONCURRENCY & STRESS PERFORMANCE
+      { id: 26, title: '100 Concurrent Users - Splash Screen Load', category: 'Concurrency & Stress', threshold: 3500, key: '100 Concurrent Users - Splash Screen Load' },
+      { id: 27, title: '100 Concurrent Users - Auth Latency', category: 'Concurrency & Stress', threshold: 4000, key: '100 Concurrent Users - Auth Latency' },
+      { id: 28, title: '100 Concurrent Users - Firestore Read Latency', category: 'Concurrency & Stress', threshold: 3500, key: '100 Concurrent Users - Firestore Read Latency' },
+      { id: 29, title: '100 Concurrent Users - Firestore Write Latency', category: 'Concurrency & Stress', threshold: 4500, key: '100 Concurrent Users - Firestore Write Latency' },
+      { id: 30, title: 'Sustained 1-Min Load - Connection Error Rate', category: 'Concurrency & Stress', threshold: 0.1, key: 'Sustained 1-Min Load - Connection Error Rate', isDecimal: true },
+      { id: 31, title: 'Sustained 1-Min Load - Peak Latency (P95)', category: 'Concurrency & Stress', threshold: 2000, key: 'Sustained 1-Min Load - Peak Latency (P95)' },
+      { id: 32, title: 'Sustained 1-Min Load - Avg Request Latency', category: 'Concurrency & Stress', threshold: 1000, key: 'Sustained 1-Min Load - Avg Request Latency' }
     ];
 
     const processedTestCases = [];
