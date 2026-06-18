@@ -39,3 +39,6 @@ selenium-tests/screenshots/
 selenium-tests/reports/report.json
 selenium-tests/reports/*.pdf
 # Note: selenium-tests/reports/excel/report.xlsx is NOT ignored and is safe to push.
+
+# Load Testing Reports
+load-test-reports/
