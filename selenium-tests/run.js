@@ -188,7 +188,12 @@ async function runTests() {
       'inventory.spec.js',
       'care_circle.spec.js',
       'caregiver.spec.js',
-      'validation.spec.js'
+      'validation.spec.js',
+      'patient_profile.spec.js',
+      'caregiver_profile.spec.js',
+      'patient_settings.spec.js',
+      'caregiver_settings.spec.js',
+      'patient_details.spec.js'
     ];
 
     testFiles.forEach(file => {

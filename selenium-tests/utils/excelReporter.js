@@ -135,6 +135,7 @@ export async function generateExcelReport(testResults) {
 
   // Define Columns
   detailsSheet.columns = [
+    { header: 'S.No.', key: 'sno', width: 10 },
     { header: 'Test ID', key: 'id', width: 15 },
     { header: 'Test Suite', key: 'suite', width: 25 },
     { header: 'Test Scenario Name', key: 'scenario', width: 45 },
@@ -166,62 +167,126 @@ export async function generateExcelReport(testResults) {
     };
   });
 
-  // Populate data
+  // Group and sort test cases by category
+  const groups = {};
   testResults.forEach((res) => {
-    const classification = getClassification(res.suite, res.title);
-    
-    // Parse Test ID and Scenario Name
-    const match = res.title.match(/^(Test\s+\d+\.\d+):\s*(.*)$/i);
-    let id = 'N/A';
-    let scenario = res.title;
-    if (match) {
-      id = match[1];
-      scenario = match[2];
+    if (!groups[res.suite]) {
+      groups[res.suite] = [];
     }
-    
-    let errorText = res.error || '';
-    if (res.status === 'Skipped') {
-      errorText = classification === 'BLOCKED' ? 'SKIPPED - NOT IMPLEMENTED' : 'Skipped';
-    }
+    groups[res.suite].push(res);
+  });
 
-    const row = detailsSheet.addRow({
-      id: id,
-      suite: res.suite,
-      scenario: scenario,
-      expected: 'PASSED',
-      status: res.status.toUpperCase(),
-      duration: res.duration || 0,
-      classification: classification,
-      error: errorText
+  const getSuiteNumber = (suiteName) => {
+    const match = suiteName.match(/^(\d+)\./);
+    return match ? parseInt(match[1], 10) : 999;
+  };
+
+  const sortedSuites = Object.keys(groups).sort((a, b) => getSuiteNumber(a) - getSuiteNumber(b));
+
+  let globalSno = 1;
+
+  // Populate data with category grouping
+  sortedSuites.forEach((suiteName) => {
+    // Add category heading row
+    const headingRow = detailsSheet.addRow({
+      sno: suiteName.toUpperCase()
     });
+    headingRow.height = 26;
+
+    // Fill background for all cells in the heading row to ensure styling renders across merge
+    for (let col = 1; col <= 9; col++) {
+      headingRow.getCell(col).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF475569' } // Slate-600
+      };
+    }
     
-    row.height = 22;
+    // Format heading text style
+    headingRow.getCell(1).font = {
+      name: 'Segoe UI',
+      size: 11,
+      bold: true,
+      color: { argb: 'FFFFFFFF' }
+    };
+    headingRow.getCell(1).alignment = {
+      vertical: 'middle',
+      horizontal: 'left',
+      indent: 1
+    };
+
+    // Merge A to I
+    detailsSheet.mergeCells(headingRow.number, 1, headingRow.number, 9);
+
+    // Add suite test cases
+    groups[suiteName].forEach((res) => {
+      const classification = getClassification(res.suite, res.title);
+      
+      // Parse Test ID and Scenario Name
+      const match = res.title.match(/^(Test\s+\d+\.\d+):\s*(.*)$/i);
+      let id = 'N/A';
+      let scenario = res.title;
+      if (match) {
+        id = match[1];
+        scenario = match[2];
+      }
+      
+      let errorText = res.error || '';
+      if (res.status === 'Skipped') {
+        errorText = classification === 'BLOCKED' ? 'SKIPPED - NOT IMPLEMENTED' : 'Skipped';
+      }
+
+      const row = detailsSheet.addRow({
+        sno: globalSno++,
+        id: id,
+        suite: res.suite,
+        scenario: scenario,
+        expected: 'PASSED',
+        status: res.status.toUpperCase(),
+        duration: res.duration || 0,
+        classification: classification,
+        error: errorText
+      });
+      
+      row.height = 22;
+    });
   });
 
   // Formatting and Styling Rows
   detailsSheet.eachRow((row, rowNumber) => {
     if (rowNumber === 1) return; // Skip headers
     
+    // Check if it is a category header row
+    const testIdVal = row.getCell(2).value;
+    if (testIdVal === null || testIdVal === undefined) {
+      return; // Skip styling for merged heading rows (already styled)
+    }
+
     row.eachCell((cell, colNumber) => {
       cell.font = { name: 'Segoe UI', size: 10 };
       cell.alignment = { vertical: 'middle' };
       
-      // Test ID column center alignment
+      // S.No. column center alignment
       if (colNumber === 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+
+      // Test ID column center alignment
+      if (colNumber === 2) {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
         cell.font = { name: 'Segoe UI', size: 10, bold: true };
       }
 
       // Expected Status column center alignment & soft green styling
-      if (colNumber === 4) {
+      if (colNumber === 5) {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE6F4EA' } }; // very soft green
         cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: 'FF137333' } };
       }
       
       // Execution Status column highlight
-      if (colNumber === 5) {
-        const val = cell.value.toString();
+      if (colNumber === 6) {
+        const val = cell.value ? cell.value.toString() : '';
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
         
         if (val === 'PASSED') {
@@ -237,13 +302,13 @@ export async function generateExcelReport(testResults) {
       }
       
       // Duration column right-aligned
-      if (colNumber === 6) {
+      if (colNumber === 7) {
         cell.alignment = { vertical: 'middle', horizontal: 'right' };
       }
 
       // Classification column highlight
-      if (colNumber === 7) {
-        const val = cell.value.toString();
+      if (colNumber === 8) {
+        const val = cell.value ? cell.value.toString() : '';
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
         
         if (val === 'READY') {
