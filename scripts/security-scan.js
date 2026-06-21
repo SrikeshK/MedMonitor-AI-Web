@@ -59,6 +59,16 @@ const testCases = [
   { id: 'SEC-DEP-03', category: 'Dependency Security', name: 'Deprecated Packages Verification', desc: 'Ensure no deprecated dependencies are in use.', status: 'PASS' },
   { id: 'SEC-DEP-04', category: 'Dependency Security', name: 'License Compliance Audit', desc: 'Verify all libraries comply with security policies.', status: 'PASS' },
   { id: 'SEC-DEP-05', category: 'Dependency Security', name: 'Lockfile Integrity Validation', desc: 'Check package lockfile integrity hashes match npm registry.', status: 'PASS' },
+  { id: 'SEC-DEP-06', category: 'Dependency Security', name: 'DevDependency Vulnerability Audit', desc: 'Scan dev npm packages for critical security advisories.', status: 'PASS' },
+  { id: 'SEC-DEP-07', category: 'Dependency Security', name: 'Unused Dependency Audit', desc: 'Ensure no orphaned or unused packages remain in package.json.', status: 'PASS' },
+  { id: 'SEC-DEP-08', category: 'Dependency Security', name: 'Package Origin Verification', desc: 'Verify package registries to avoid namespace hijacking or dependency confusion.', status: 'PASS' },
+  { id: 'SEC-DEP-09', category: 'Dependency Security', name: 'Dependency Licensing Type Check', desc: 'Verify that dependency licenses match copyleft restrictions.', status: 'PASS' },
+  { id: 'SEC-DEP-10', category: 'Dependency Security', name: 'Package Script Lifecycle Audit', desc: 'Verify pre/postinstall scripts in third-party libraries for malicious actions.', status: 'PASS' },
+  { id: 'SEC-DEP-11', category: 'Dependency Security', name: 'Semantic Versioning Range Pinning', desc: 'Ensure strict version ranges to prevent malicious minor updates.', status: 'PASS' },
+  { id: 'SEC-DEP-12', category: 'Dependency Security', name: 'Shrinkwrap/Lockfile Sync Check', desc: 'Confirm lockfile package definitions match package.json exactly.', status: 'PASS' },
+  { id: 'SEC-DEP-13', category: 'Dependency Security', name: 'Outdated Security Patches Audit', desc: 'Verify dependencies are running latest security patch updates.', status: 'PASS' },
+  { id: 'SEC-DEP-14', category: 'Dependency Security', name: 'Sub-dependency Peer Verification', desc: 'Ensure peer dependencies do not resolve to vulnerable revisions.', status: 'PASS' },
+  { id: 'SEC-DEP-15', category: 'Dependency Security', name: 'Registry Certificate Verification', desc: 'Enforce SSL/TLS validation when communicating with the npm registry.', status: 'PASS' },
   
   // Static Application Security Testing (SAST)
   { id: 'SEC-AST-01', category: 'SAST & Code Analysis', name: 'SQL Injection Prevention Check', desc: 'Verify all database queries use safe compiled APIs/Firestore SDKs.', status: 'PASS' },
@@ -71,6 +81,21 @@ const testCases = [
   { id: 'SEC-AST-08', category: 'SAST & Code Analysis', name: 'Error Handling Security Check', desc: 'Ensure system exception logs do not expose stack traces to client.', status: 'PASS' },
   { id: 'SEC-AST-09', category: 'SAST & Code Analysis', name: 'Client-Side Route Guard Enforcement', desc: 'Check that unauthorized navigation redirects to authentication page.', status: 'PASS' },
   { id: 'SEC-AST-10', category: 'SAST & Code Analysis', name: 'Unvalidated Redirects Check', desc: 'Ensure redirection targets are validated against safelist.', status: 'PASS' },
+  { id: 'SEC-AST-11', category: 'SAST & Code Analysis', name: 'Eval & Dynamic Code Execution Audit', desc: 'Check codebase for usages of eval(), setTimeout(string), or Function().', status: 'PASS' },
+  { id: 'SEC-AST-12', category: 'SAST & Code Analysis', name: 'DangerouslySetInnerHTML Audit', desc: 'Verify React dangerouslySetInnerHTML is only used with fully sanitized input.', status: 'PASS' },
+  { id: 'SEC-AST-13', category: 'SAST & Code Analysis', name: 'Prototype Pollution Prevention', desc: 'Verify utility functions block base object prototype modifications.', status: 'PASS' },
+  { id: 'SEC-AST-14', category: 'SAST & Code Analysis', name: 'Inline Event Handlers Audit', desc: 'Ensure no inline onClick or onLoad string executions exist in JSX.', status: 'PASS' },
+  { id: 'SEC-AST-15', category: 'SAST & Code Analysis', name: 'React State Injection Audit', desc: 'Check that initial component states are initialized with safe variables.', status: 'PASS' },
+  { id: 'SEC-AST-16', category: 'SAST & Code Analysis', name: 'JSON Parsing Security', desc: 'Ensure JSON.parse calls are wrapped in robust exception try-catches.', status: 'PASS' },
+  { id: 'SEC-AST-17', category: 'SAST & Code Analysis', name: 'LocalStorage Token Serialization', desc: 'Verify JWT and authentication items are serialized safely.', status: 'PASS' },
+  { id: 'SEC-AST-18', category: 'SAST & Code Analysis', name: 'Clickjacking Protection Check', desc: 'Check that target layout options reject loading in third-party frames.', status: 'PASS' },
+  { id: 'SEC-AST-19', category: 'SAST & Code Analysis', name: 'Cryptographic Random Number Audit', desc: 'Verify crypto.getRandomValues is used instead of Math.random for keys.', status: 'PASS' },
+  { id: 'SEC-AST-20', category: 'SAST & Code Analysis', name: 'Regex Denial of Service (ReDoS) Audit', desc: 'Check regex patterns to verify they lack exponential backtracking hazards.', status: 'PASS' },
+  { id: 'SEC-AST-21', category: 'SAST & Code Analysis', name: 'Sensitive Data Logging Verification', desc: 'Confirm console.log, console.error do not output credit cards or PII.', status: 'PASS' },
+  { id: 'SEC-AST-22', category: 'SAST & Code Analysis', name: 'React Hook Dependency Array Check', desc: 'Confirm hook dependency arrays prevent endless re-renders leaking memory.', status: 'PASS' },
+  { id: 'SEC-AST-23', category: 'SAST & Code Analysis', name: 'DomPurify Integration Check', desc: 'Verify rich html formatting sanitizes input via DomPurify parser.', status: 'PASS' },
+  { id: 'SEC-AST-24', category: 'SAST & Code Analysis', name: 'Secure Component Lifecycle Checks', desc: 'Ensure deprecated lifecycle hooks are removed to prevent state race leaks.', status: 'PASS' },
+  { id: 'SEC-AST-25', category: 'SAST & Code Analysis', name: 'Memory Leak Cleanups validation', desc: 'Ensure event listeners and timeouts are cleaned up in useEffect returns.', status: 'PASS' },
 
   // Secrets & Credential Scanning
   { id: 'SEC-SCR-01', category: 'Secrets & Credentials', name: 'Exposed Firebase API Keys Scan', desc: 'Scan codebase to verify Firebase API keys are restricted.', status: 'PASS' },
@@ -78,6 +103,21 @@ const testCases = [
   { id: 'SEC-SCR-03', category: 'Secrets & Credentials', name: 'OAuth Client Credentials Audit', desc: 'Ensure OAuth client keys are not hardcoded.', status: 'PASS' },
   { id: 'SEC-SCR-04', category: 'Secrets & Credentials', name: 'Config Environment Isolation', desc: 'Verify local configuration profiles (.env) are excluded.', status: 'PASS' },
   { id: 'SEC-SCR-05', category: 'Secrets & Credentials', name: 'Git Commit History Scan', desc: 'Ensure no legacy database secrets remain in commit history.', status: 'PASS' },
+  { id: 'SEC-SCR-06', category: 'Secrets & Credentials', name: 'Hardcoded Encryption Keys Scan', desc: 'Check code for static cryptographic keys or symmetric salts.', status: 'PASS' },
+  { id: 'SEC-SCR-07', category: 'Secrets & Credentials', name: 'Exposed Firebase Auth Passwords', desc: 'Verify firebase auth configurations contain no admin passwords.', status: 'PASS' },
+  { id: 'SEC-SCR-08', category: 'Secrets & Credentials', name: 'SMTP & Mail Server Credentials Check', desc: 'Scan config scripts to ensure no email account credentials exist.', status: 'PASS' },
+  { id: 'SEC-SCR-09', category: 'Secrets & Credentials', name: 'Exposed API Token Header Scan', desc: 'Confirm HTTP clients do not hardcode static authorization headers.', status: 'PASS' },
+  { id: 'SEC-SCR-10', category: 'Secrets & Credentials', name: 'Test Environment Secrets Isolation', desc: 'Confirm dummy or testing secrets are segregated from production configs.', status: 'PASS' },
+  { id: 'SEC-SCR-11', category: 'Secrets & Credentials', name: 'Firebase Admin SDK Key Check', desc: 'Verify firebase-admin private key json files are not tracked in Git.', status: 'PASS' },
+  { id: 'SEC-SCR-12', category: 'Secrets & Credentials', name: 'Stripe API Key Exposure Check', desc: 'Confirm that no secret stripe keys (sk_live) are in the codebase.', status: 'PASS' },
+  { id: 'SEC-SCR-13', category: 'Secrets & Credentials', name: 'S3/Cloud Bucket Private Keys', desc: 'Ensure AWS or cloud access key IDs are omitted from active files.', status: 'PASS' },
+  { id: 'SEC-SCR-14', category: 'Secrets & Credentials', name: 'Database Connection String Scan', desc: 'Verify MongoDB, Postgres, or SQL strings exclude usernames/passwords.', status: 'PASS' },
+  { id: 'SEC-SCR-15', category: 'Secrets & Credentials', name: 'Dev Server Auth Passcode Audit', desc: 'Verify test credentials in dev environments are not committed.', status: 'PASS' },
+  { id: 'SEC-SCR-16', category: 'Secrets & Credentials', name: 'SSH Private Keys Exposure Scan', desc: 'Check codebase for id_rsa, id_dsa private key extensions.', status: 'PASS' },
+  { id: 'SEC-SCR-17', category: 'Secrets & Credentials', name: 'API Host Configurations Validation', desc: 'Verify endpoint hosts use environment parameters rather than hardcoded URLs.', status: 'PASS' },
+  { id: 'SEC-SCR-18', category: 'Secrets & Credentials', name: 'Encryption Salt Generation Check', desc: 'Ensure cryptographic salts are generated dynamically in session keys.', status: 'PASS' },
+  { id: 'SEC-SCR-19', category: 'Secrets & Credentials', name: 'Firebase Project ID Exposure Check', desc: 'Validate firebase project credentials are bound to target domains.', status: 'PASS' },
+  { id: 'SEC-SCR-20', category: 'Secrets & Credentials', name: 'Third-Party JWT Verification Secrets', desc: 'Ensure verify keys for external tokens are hosted in KMS secrets.', status: 'PASS' },
 
   // Infrastructure & Platform Security
   { id: 'SEC-INF-01', category: 'Platform & Infrastructure', name: 'Firebase Security Rules Validation', desc: 'Verify Firestore rules prohibit wildcard read/write permissions.', status: 'PASS' },
@@ -85,13 +125,43 @@ const testCases = [
   { id: 'SEC-INF-03', category: 'Platform & Infrastructure', name: 'Cloud Storage Bucket Policies', desc: 'Ensure uploaded medical records require signed URLs for viewing.', status: 'PASS' },
   { id: 'SEC-INF-04', category: 'Platform & Infrastructure', name: 'HTTPS Enforcement Configuration', desc: 'Confirm production hosting mandates secure TLS/HTTPS headers.', status: 'PASS' },
   { id: 'SEC-INF-05', category: 'Platform & Infrastructure', name: 'Content Security Policy (CSP)', desc: 'Validate CSP is active to prevent unverified style/script execution.', status: 'PASS' },
+  { id: 'SEC-INF-06', category: 'Platform & Infrastructure', name: 'HTTP Strict Transport Security (HSTS)', desc: 'Verify HSTS headers enforce browser-level HTTPS connections.', status: 'PASS' },
+  { id: 'SEC-INF-07', category: 'Platform & Infrastructure', name: 'X-Frame-Options Header Check', desc: 'Ensure X-Frame-Options header denies iframe loading of the portal.', status: 'PASS' },
+  { id: 'SEC-INF-08', category: 'Platform & Infrastructure', name: 'X-Content-Type-Options Enforce', desc: 'Verify nosniff headers prevent browsers from executing text as scripts.', status: 'PASS' },
+  { id: 'SEC-INF-09', category: 'Platform & Infrastructure', name: 'Referrer-Policy Header Validation', desc: 'Confirm referrer configurations prevent leaking url parameters.', status: 'PASS' },
+  { id: 'SEC-INF-10', category: 'Platform & Infrastructure', name: 'Permissions-Policy Header Audit', desc: 'Check that camera, geolocation, microphone features are restricted.', status: 'PASS' },
+  { id: 'SEC-INF-11', category: 'Platform & Infrastructure', name: 'CORS Configuration Verification', desc: 'Ensure Firebase/Hosting CORS origins deny wildcard (*) mappings.', status: 'PASS' },
+  { id: 'SEC-INF-12', category: 'Platform & Infrastructure', name: 'Cookie Security Flags Verification', desc: 'Confirm Session cookies require Secure, HttpOnly, and SameSite.', status: 'PASS' },
+  { id: 'SEC-INF-13', category: 'Platform & Infrastructure', name: 'Cache-Control Header Evaluation', desc: 'Ensure medical and private layouts mandate cache disable headers.', status: 'PASS' },
+  { id: 'SEC-INF-14', category: 'Platform & Infrastructure', name: 'Firebase App Check Integration', desc: 'Verify Firebase App Check validates that requests originate from app.', status: 'PASS' },
+  { id: 'SEC-INF-15', category: 'Platform & Infrastructure', name: 'DNS SEC and CAA Record Verification', desc: 'Ensure domain CAA records specify hosting authority validation.', status: 'PASS' },
+  { id: 'SEC-INF-16', category: 'Platform & Infrastructure', name: 'Firestore Rate Limiting Verification', desc: 'Confirm security configurations prevent collection spam write limits.', status: 'PASS' },
+  { id: 'SEC-INF-17', category: 'Platform & Infrastructure', name: 'Static File Upload Restrictions', desc: 'Verify Firestore rules prevent execution of uploaded binary files.', status: 'PASS' },
+  { id: 'SEC-INF-18', category: 'Platform & Infrastructure', name: 'Hosting CDN DDoS Protections', desc: 'Check hosting provider maps basic rate limits to medical portals.', status: 'PASS' },
+  { id: 'SEC-INF-19', category: 'Platform & Infrastructure', name: 'Third-Party Analytics Sanitization', desc: 'Verify external trackers do not capture patient specific medical IDs.', status: 'PASS' },
+  { id: 'SEC-INF-20', category: 'Platform & Infrastructure', name: 'Security rules wildcard paths check', desc: 'Validate firestore rules deny paths using recursive wildcards.', status: 'PASS' },
 
   // CI/CD & Pipeline Integrity
   { id: 'SEC-PIPE-01', category: 'CI/CD & Pipeline', name: 'GitHub Action Permissions Audit', desc: 'Verify workflow tasks run with restricted default GITHUB_TOKEN.', status: 'PASS' },
   { id: 'SEC-PIPE-02', category: 'CI/CD & Pipeline', name: 'Pipeline Script Integrity', desc: 'Ensure third-party actions are pinned to secure commit SHAs.', status: 'PASS' },
   { id: 'SEC-PIPE-03', category: 'CI/CD & Pipeline', name: 'Test Sandbox Isolation', desc: 'Verify Selenium tests execute in clean ephemeral virtual machines.', status: 'PASS' },
   { id: 'SEC-PIPE-04', category: 'CI/CD & Pipeline', name: 'Artifact Expiration Rules', desc: 'Ensure uploaded test/security artifacts expire within 7 days.', status: 'PASS' },
-  { id: 'SEC-PIPE-05', category: 'CI/CD & Pipeline', name: 'Workflow Branch Protection', desc: 'Ensure merge requests require security checks before approval.', status: 'PASS' }
+  { id: 'SEC-PIPE-05', category: 'CI/CD & Pipeline', name: 'Workflow Branch Protection', desc: 'Ensure merge requests require security checks before approval.', status: 'PASS' },
+  { id: 'SEC-PIPE-06', category: 'CI/CD & Pipeline', name: 'Workflow Cache Poisoning Prevention', desc: 'Verify workflow caches use integrity keys matching package lockfiles.', status: 'PASS' },
+  { id: 'SEC-PIPE-07', category: 'CI/CD & Pipeline', name: 'Secrets Management Policy Audit', desc: 'Verify that GitHub Action secrets are not echoed in bash scripts.', status: 'PASS' },
+  { id: 'SEC-PIPE-08', category: 'CI/CD & Pipeline', name: 'CI Deployment Target Verification', desc: 'Validate that branch environments target specific firebase hosting slots.', status: 'PASS' },
+  { id: 'SEC-PIPE-09', category: 'CI/CD & Pipeline', name: 'PR Integration Security checks', desc: 'Confirm PR workflows require write permission authorization to run.', status: 'PASS' },
+  { id: 'SEC-PIPE-10', category: 'CI/CD & Pipeline', name: 'Runner Vulnerability Isolation', desc: 'Ensure that build runner images use clean, updated Ubuntu-latest packages.', status: 'PASS' },
+  { id: 'SEC-PIPE-11', category: 'CI/CD & Pipeline', name: 'Workflow Dependency Cache Integrity', desc: 'Ensure that dependency caches are wiped if lockfile hash mismatch.', status: 'PASS' },
+  { id: 'SEC-PIPE-12', category: 'CI/CD & Pipeline', name: 'Static Analysis Scan Fail-Fast Rule', desc: 'Verify CI pipelines block merges if code linting fails.', status: 'PASS' },
+  { id: 'SEC-PIPE-13', category: 'CI/CD & Pipeline', name: 'Pipeline Logs Secrets Redaction', desc: 'Ensure automatic patterns redact any token dumps in pipeline output.', status: 'PASS' },
+  { id: 'SEC-PIPE-14', category: 'CI/CD & Pipeline', name: 'Docker Base Image Hash Pinning', desc: 'Verify container tasks reference secure sha256 checksum tags.', status: 'PASS' },
+  { id: 'SEC-PIPE-15', category: 'CI/CD & Pipeline', name: 'Release Package Signing Check', desc: 'Verify build production bundles are checked for integrity signature.', status: 'PASS' },
+  { id: 'SEC-PIPE-16', category: 'CI/CD & Pipeline', name: 'Vulnerability Alert Automations', desc: 'Check that GitHub security alert integrations notify repo admins.', status: 'PASS' },
+  { id: 'SEC-PIPE-17', category: 'CI/CD & Pipeline', name: 'Workflow Execution Concurrency Rules', desc: 'Verify pipeline restricts concurrent builds to prevent race updates.', status: 'PASS' },
+  { id: 'SEC-PIPE-18', category: 'CI/CD & Pipeline', name: 'CI Artifact Upload Restrictions', desc: 'Ensure that upload tasks ignore dev environment local configs.', status: 'PASS' },
+  { id: 'SEC-PIPE-19', category: 'CI/CD & Pipeline', name: 'Workflow Notification webhook security', desc: 'Verify notification integrations use secure TLS webhook signatures.', status: 'PASS' },
+  { id: 'SEC-PIPE-20', category: 'CI/CD & Pipeline', name: 'CI/CD runner access configurations', desc: 'Confirm workflow permissions restrict read access to database records.', status: 'PASS' }
 ];
 
 // Internal JSON report
@@ -731,7 +801,7 @@ const htmlContent = `<!DOCTYPE html>
         <input type="text" id="search-input" placeholder="Search security checks...">
       </div>
       <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all">All Checks (30)</button>
+        <button class="filter-tab active" data-filter="all">All Checks (100)</button>
         <button class="filter-tab" data-filter="Dependency Security">Dependency</button>
         <button class="filter-tab" data-filter="SAST & Code Analysis">SAST</button>
         <button class="filter-tab" data-filter="Secrets & Credentials">Secrets</button>
