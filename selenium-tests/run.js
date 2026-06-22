@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import Mocha from 'mocha';
 import { generateExcelReport } from './utils/excelReporter.js';
 import { logger } from './utils/logger.js';
@@ -193,7 +194,10 @@ async function runTests() {
       'caregiver_profile.spec.js',
       'patient_settings.spec.js',
       'caregiver_settings.spec.js',
-      'patient_details.spec.js'
+      'patient_details.spec.js',
+      'document_export.spec.js',
+      'caregiver_monitor.spec.js',
+      'cache_storage.spec.js'
     ];
 
     testFiles.forEach(file => {
@@ -225,6 +229,30 @@ async function runTests() {
 
       try {
         await generateExcelReport(testResults);
+        
+        // Copy E2E reports to brain artifacts directory
+        const artifactsDir = 'C:\\Users\\srike\\.gemini\\antigravity-ide\\brain\\e0629d88-d3e4-4f05-b747-e4854f08c8ad';
+        if (fs.existsSync(artifactsDir)) {
+          logger.info('Copying E2E test reports to artifacts directory...');
+          try {
+            const reportsSrc = config.paths.reports;
+            const excelSrc = config.paths.excel;
+            
+            if (fs.existsSync(path.join(reportsSrc, 'report.json'))) {
+              fs.copyFileSync(path.join(reportsSrc, 'report.json'), path.join(artifactsDir, 'report.json'));
+            }
+            if (fs.existsSync(path.join(reportsSrc, 'report.html'))) {
+              fs.copyFileSync(path.join(reportsSrc, 'report.html'), path.join(artifactsDir, 'report.html'));
+            }
+            if (fs.existsSync(path.join(excelSrc, 'report.xlsx'))) {
+              fs.copyFileSync(path.join(excelSrc, 'report.xlsx'), path.join(artifactsDir, 'report.xlsx'));
+            }
+            logger.info('E2E reports copied successfully to artifacts directory.');
+          } catch (copyErr) {
+            logger.error('Failed to copy E2E reports to artifacts directory', copyErr);
+          }
+        }
+
         logger.info(`E2E Testing Completed. Failures count: ${failures}`);
         process.exit(failures > 0 ? 1 : 0);
       } catch (err) {
