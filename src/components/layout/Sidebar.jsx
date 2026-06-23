@@ -11,8 +11,10 @@ import {
   Settings,
   Users,
   LogOut,
-  Shield
+  Shield,
+  MessageSquare
 } from 'lucide-react';
+
 import { cn } from '../../utils/cn';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
@@ -25,6 +27,8 @@ const navItems = [
   { icon: FileText, label: 'Reports', path: '/patient/reports' },
   { icon: Package, label: 'Inventory', path: '/patient/inventory' },
   { icon: Users, label: 'Care Circle', path: '/patient/care-circle' },
+  { icon: MessageSquare, label: 'Community', path: '/patient/community' },
+
 ];
 
 const Sidebar = () => {

@@ -7,9 +7,9 @@ import {
   Clock,
   ShieldCheck,
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
-import { subscribeToMedicines, updateMedicine } from '../../services/medicineService';
+import { updateMedicine } from '../../services/medicineService';
+import { useMedicines } from '../../hooks/useMedicines';
 import { getAlertsFromMedicines, CLASSIFICATION } from '../../utils/medicineStatusEngine';
 import AlertCard from '../../components/alerts/AlertCard';
 import EmptyState from '../../components/EmptyState';
@@ -17,25 +17,15 @@ import { DashboardCardSkeleton } from '../../components/Skeleton';
 import EditMedicineModal from '../../components/medicines/EditMedicineModal';
 
 const Alerts = () => {
-  const { currentUser } = useAuth();
   const { addToast } = useUI();
-  const [medicines, setMedicines] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { medicines = [], loading, error } = useMedicines();
   const [selectedMedicine, setSelectedMedicine] = useState(null);
 
   useEffect(() => {
-    if (!currentUser) return;
-
-    const unsubscribe = subscribeToMedicines(currentUser.uid, (data) => {
-      setMedicines(data);
-      setLoading(false);
-    }, () => {
-      setLoading(false);
+    if (error) {
       addToast({ message: "Failed to sync alerts", type: "error" });
-    });
-
-    return () => unsubscribe();
-  }, [currentUser, addToast]);
+    }
+  }, [error, addToast]);
 
   const alertGroups = useMemo(() => {
     return getAlertsFromMedicines(medicines);

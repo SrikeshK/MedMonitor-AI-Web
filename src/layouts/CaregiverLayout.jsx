@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, Bell, BarChart3, FileText, User, Settings, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../utils/cn';
 import { useAuth } from '../context/AuthContext';
+import { subscribeToUserProfile } from '../services/userService';
+import EditUsernameModal from '../components/EditUsernameModal';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/caregiver/dashboard' },
@@ -14,6 +16,16 @@ const navItems = [
 
 const CaregiverLayout = () => {
   const { logout, currentUser } = useAuth();
+  const [userProfile, setUserProfile] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const unsubscribe = subscribeToUserProfile(currentUser.uid, (profile) => {
+      setUserProfile(profile);
+    });
+    return () => unsubscribe();
+  }, [currentUser]);
 
   return (
     <div className="flex h-screen bg-background overflow-hidden text-slate-200">
@@ -79,8 +91,14 @@ const CaregiverLayout = () => {
           </div>
 
           <div className="flex items-center gap-6 ml-auto">
-             <div className="hidden md:flex flex-col items-end">
-                <p className="text-sm font-bold text-white">{currentUser?.displayName || 'Caregiver'}</p>
+             <div 
+               className="hidden md:flex flex-col items-end cursor-pointer select-none group"
+               onClick={() => setIsEditModalOpen(true)}
+               title="Click to edit username"
+             >
+                <p className="text-sm font-bold text-white group-hover:text-primary-purple transition-colors">
+                  {userProfile?.fullName || currentUser?.displayName || 'Caregiver'}
+                </p>
                 <p className="text-[10px] text-primary-purple font-bold uppercase tracking-widest">Medical Professional</p>
              </div>
              <NavLink to="/caregiver/profile">
@@ -94,6 +112,12 @@ const CaregiverLayout = () => {
              </NavLink>
           </div>
         </header>
+
+        <EditUsernameModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          currentName={userProfile?.fullName || currentUser?.displayName || ''}
+        />
 
         <main className="flex-1 overflow-y-auto custom-scrollbar relative">
           {/* Ambient Glows */}

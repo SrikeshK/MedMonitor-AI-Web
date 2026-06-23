@@ -23,6 +23,8 @@ const Inventory = lazy(() => import('../pages/patient/Inventory'));
 const PatientProfile = lazy(() => import('../pages/patient/Profile'));
 const PatientSettings = lazy(() => import('../pages/patient/Settings'));
 const CareCircle = lazy(() => import('../pages/patient/CareCircle'));
+const Community = lazy(() => import('../pages/patient/Community'));
+
 
 // Caregiver Pages
 const CaregiverDashboard = lazy(() => import('../pages/caregiver/Dashboard'));
@@ -92,6 +94,8 @@ export const routes = [
       { path: 'reports', element: Loadable(PatientReports)() },
       { path: 'inventory', element: Loadable(Inventory)() },
       { path: 'care-circle', element: Loadable(CareCircle)() },
+      { path: 'community', element: Loadable(Community)() },
+
       { path: 'profile', element: Loadable(PatientProfile)() },
       { path: 'settings', element: Loadable(PatientSettings)() },
     ],

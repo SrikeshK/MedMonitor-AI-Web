@@ -41,11 +41,26 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
+  async function updateDisplayName(displayName) {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName });
+      const updatedUser = Object.create(auth.currentUser);
+      Object.defineProperty(updatedUser, 'displayName', {
+        value: displayName,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
+      setCurrentUser(updatedUser);
+    }
+  }
+
   const value = {
     currentUser,
     login,
     register,
     logout,
+    updateDisplayName,
     loading
   };
 

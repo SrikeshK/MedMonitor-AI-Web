@@ -61,4 +61,33 @@ export const PatientCardSkeleton = () => (
   </div>
 );
 
+export const PostCardSkeleton = () => (
+  <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-5 space-y-4" data-testid="community-skeleton">
+    {/* Author row */}
+    <div className="flex items-center gap-3">
+      <Skeleton className="w-10 h-10 flex-shrink-0" variant="circle" />
+      <div className="flex-grow space-y-1.5">
+        <Skeleton className="w-1/3 h-4" />
+        <Skeleton className="w-1/4 h-3" />
+      </div>
+    </div>
+    {/* Title */}
+    <div className="space-y-2">
+      <Skeleton className="w-3/4 h-5" />
+      <Skeleton className="w-1/2 h-5" />
+    </div>
+    {/* Body lines */}
+    <div className="space-y-2">
+      <Skeleton className="w-full h-3" />
+      <Skeleton className="w-full h-3" />
+      <Skeleton className="w-2/3 h-3" />
+    </div>
+    {/* Footer counters */}
+    <div className="flex items-center gap-4 pt-2 border-t border-white/5">
+      <Skeleton className="w-16 h-6 rounded-xl" />
+      <Skeleton className="w-16 h-6 rounded-xl" />
+    </div>
+  </div>
+);
+
 export default Skeleton;

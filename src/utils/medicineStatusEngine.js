@@ -79,16 +79,28 @@ export const classifyDose = (medicine, slot, slotTimeStr) => {
 
   const slotMillis = parseTimeToTodayMillis(slotTimeStr);
   const normalizedSlotName = normalizeSlot(slot);
-  const slotStatus = medicine.slotStatus?.[normalizedSlotName] || STATUS.PENDING;
+
+  const getNormalizedSlotStatus = (slotStatusObj, slotName) => {
+    if (!slotStatusObj || !slotName) return 'PENDING';
+    let val = slotStatusObj[slotName];
+    if (val === undefined) {
+      const target = slotName.toLowerCase();
+      const foundKey = Object.keys(slotStatusObj).find(k => k.toLowerCase() === target);
+      val = foundKey ? slotStatusObj[foundKey] : 'PENDING';
+    }
+    return String(val || 'PENDING').toUpperCase();
+  };
+
+  const slotStatus = getNormalizedSlotStatus(medicine.slotStatus, normalizedSlotName);
 
   // 1. FIRESTORE STATUS OVERRIDES
-  // Android behavior: If slotStatus is TAKEN, return COMPLETED immediately.
-  if (slotStatus === STATUS.TAKEN) {
+  // Android behavior: If slotStatus is TAKEN/COMPLETED/DELAYED, return COMPLETED immediately.
+  if (slotStatus === 'TAKEN' || slotStatus === 'COMPLETED' || slotStatus === 'DELAYED') {
     return CLASSIFICATION.COMPLETED;
   }
 
   // Android behavior: If slotStatus is MISSED, return MISSED immediately (ignore clock).
-  if (slotStatus === STATUS.MISSED) {
+  if (slotStatus === 'MISSED') {
     return CLASSIFICATION.MISSED;
   }
 

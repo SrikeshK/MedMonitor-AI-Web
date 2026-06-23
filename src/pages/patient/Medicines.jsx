@@ -6,9 +6,9 @@ import {
   Calendar, Info, Edit2, CheckCircle2,
   AlertCircle, XCircle, SearchX
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
-import { subscribeToMedicines, getInventoryState, getDaysLeft, INVENTORY_STATES } from '../../services/medicineService';
+import { getInventoryState, getDaysLeft, INVENTORY_STATES } from '../../services/medicineService';
+import { useMedicines } from '../../hooks/useMedicines';
 import AddMedicineModal from '../../components/medicines/AddMedicineModal';
 import EditMedicineModal from '../../components/medicines/EditMedicineModal';
 import GlowButton from '../../components/GlowButton';
@@ -17,10 +17,8 @@ import { MedicineCardSkeleton } from '../../components/Skeleton';
 import { cn } from '../../utils/cn';
 
 const Medicines = () => {
-  const { currentUser } = useAuth();
   const { addToast } = useUI();
-  const [medicines, setMedicines] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { medicines = [], loading, error } = useMedicines();
   const [searchQuery, setSearchQuery] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedMedicine, setSelectedMedicine] = useState(null);
@@ -28,18 +26,10 @@ const Medicines = () => {
   const [filter, setFilter] = useState('ALL'); // ALL, LOW_STOCK, ACTIVE
 
   useEffect(() => {
-    if (!currentUser) return;
-
-    const unsubscribe = subscribeToMedicines(currentUser.uid, (data) => {
-      setMedicines(data);
-      setLoading(false);
-    }, (error) => {
-      setLoading(false);
+    if (error) {
       addToast({ message: "Failed to sync medicines", type: "error" });
-    });
-
-    return () => unsubscribe();
-  }, [currentUser, addToast]);
+    }
+  }, [error, addToast]);
 
   const filteredMedicines = medicines.filter(med => {
     const matchesSearch = med.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -51,9 +41,10 @@ const Medicines = () => {
   });
 
   const getStatusColor = (status) => {
-    switch (status) {
+    switch (String(status || '').toUpperCase()) {
       case 'TAKEN':
-      case 'COMPLETED': return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+      case 'COMPLETED':
+      case 'DELAYED': return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
       case 'MISSED': return 'text-rose-400 bg-rose-500/10 border-rose-500/20';
       case 'PENDING': return 'text-amber-400 bg-amber-500/10 border-amber-500/20';
       default: return 'text-slate-400 bg-slate-500/10 border-slate-500/20';
@@ -61,9 +52,10 @@ const Medicines = () => {
   };
 
   const getStatusIcon = (status) => {
-    switch (status) {
+    switch (String(status || '').toUpperCase()) {
       case 'TAKEN':
-      case 'COMPLETED': return <CheckCircle2 size={14} />;
+      case 'COMPLETED':
+      case 'DELAYED': return <CheckCircle2 size={14} />;
       case 'MISSED': return <XCircle size={14} />;
       case 'PENDING': return <Clock size={14} />;
       default: return <Info size={14} />;
@@ -298,18 +290,28 @@ const Medicines = () => {
 
                     {/* Schedule Slots */}
                     <div className="flex flex-wrap gap-2">
-                      {Object.entries(med.scheduleTimes || {}).map(([slot, time]) => (
-                        <div
-                          key={slot}
-                          className={cn(
-                            "px-3.5 py-2 rounded-xl border text-[11px] font-bold flex items-center gap-2 transition-colors uppercase tracking-wider",
-                            getStatusColor(med.slotStatus?.[slot.charAt(0).toUpperCase() + slot.slice(1).toLowerCase()] || med.slotStatus?.[slot])
-                          )}
-                        >
-                          {getStatusIcon(med.slotStatus?.[slot.charAt(0).toUpperCase() + slot.slice(1).toLowerCase()] || med.slotStatus?.[slot])}
-                          <span>{slot}: {time}</span>
-                        </div>
-                      ))}
+                      {Object.entries(med.scheduleTimes || {}).map(([slot, time]) => {
+                        const getSlotStatusValue = (statusObj, name) => {
+                          if (!statusObj || !name) return undefined;
+                          if (statusObj[name] !== undefined) return statusObj[name];
+                          const target = name.toLowerCase();
+                          const foundKey = Object.keys(statusObj).find(k => k.toLowerCase() === target);
+                          return foundKey ? statusObj[foundKey] : undefined;
+                        };
+                        const slotStatusVal = getSlotStatusValue(med.slotStatus, slot);
+                        return (
+                          <div
+                            key={slot}
+                            className={cn(
+                              "px-3.5 py-2 rounded-xl border text-[11px] font-bold flex items-center gap-2 transition-colors uppercase tracking-wider",
+                              getStatusColor(slotStatusVal)
+                            )}
+                          >
+                            {getStatusIcon(slotStatusVal)}
+                            <span>{slot}: {time}</span>
+                          </div>
+                        );
+                      })}
                     </div>
 
                     {/* Expandable Details */}

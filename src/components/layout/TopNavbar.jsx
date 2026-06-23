@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, Pill, Bell, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import { subscribeToUserProfile } from '../../services/userService';
+import EditUsernameModal from '../EditUsernameModal';
 import { cn } from '../../utils/cn';
 
 const TopNavbar = () => {
   const { currentUser } = useAuth();
+  const [userProfile, setUserProfile] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const unsubscribe = subscribeToUserProfile(currentUser.uid, (profile) => {
+      setUserProfile(profile);
+    });
+    return () => unsubscribe();
+  }, [currentUser]);
 
   return (
     <header className="h-20 flex items-center justify-between px-6 md:px-8 border-b border-white/5 bg-background/50 backdrop-blur-xl z-30 sticky top-0">
@@ -51,14 +63,20 @@ const TopNavbar = () => {
 
         <div className="w-px h-8 bg-white/10 hidden sm:block"></div>
 
-        <div className="flex items-center gap-3">
+        <div 
+          className="flex items-center gap-3 cursor-pointer select-none group" 
+          onClick={() => setIsEditModalOpen(true)}
+          title="Click to edit username"
+        >
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-bold text-white leading-none">{currentUser?.displayName || 'Patient'}</p>
+            <p className="text-sm font-bold text-white leading-none group-hover:text-primary-cyan transition-colors">
+              {userProfile?.fullName || currentUser?.displayName || 'Patient'}
+            </p>
             <p className="text-[10px] text-primary-cyan mt-1 font-bold uppercase tracking-widest">Medical ID: #MM-2401</p>
           </div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary-cyan/20 to-primary-purple/20 p-[1px] shadow-xl group cursor-pointer"
+            className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary-cyan/20 to-primary-purple/20 p-[1px] shadow-xl"
           >
             <div className="w-full h-full rounded-[11px] bg-background flex items-center justify-center overflow-hidden border border-white/10">
                <img
@@ -70,6 +88,12 @@ const TopNavbar = () => {
           </motion.div>
         </div>
       </div>
+
+      <EditUsernameModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        currentName={userProfile?.fullName || currentUser?.displayName || ''}
+      />
     </header>
   );
 };

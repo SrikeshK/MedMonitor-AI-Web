@@ -1,4 +1,4 @@
-import { doc, onSnapshot, collection, query, where } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 /**
@@ -61,4 +61,9 @@ export const subscribeToPatientCaregivers = (userId, callback) => {
     console.error("Error subscribing to patient caregivers:", error);
     callback([]);
   });
+};
+
+export const updateUserProfileName = async (userId, newName) => {
+  const userRef = doc(db, 'Users', userId);
+  await updateDoc(userRef, { fullName: newName });
 };

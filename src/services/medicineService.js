@@ -66,19 +66,34 @@ export const getDaysLeft = (medicine) => {
   return Math.ceil(remainingQuantity / usage);
 };
 
+/**
+ * Case-insensitive slot status lookup helper
+ */
+export const getNormalizedSlotStatus = (slotStatus, slotName) => {
+  if (!slotStatus || !slotName) return 'PENDING';
+  let val = slotStatus[slotName];
+  if (val === undefined) {
+    const target = slotName.toLowerCase();
+    const foundKey = Object.keys(slotStatus).find(k => k.toLowerCase() === target);
+    val = foundKey ? slotStatus[foundKey] : 'PENDING';
+  }
+  return String(val || 'PENDING').toUpperCase();
+};
+
 export const getUserMedicines = async (userId) => {
   const q = query(collection(db, 'Medicines'), where('userId', '==', userId));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const subscribeToMedicines = (userId, callback) => {
+export const subscribeToMedicines = (userId, callback, onError) => {
   const q = query(collection(db, 'Medicines'), where('userId', '==', userId));
   return onSnapshot(q, (snapshot) => {
     const medicines = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     callback(medicines);
   }, (error) => {
     console.error("Error subscribing to medicines:", error);
+    if (onError) onError(error);
   });
 };
 
@@ -160,11 +175,11 @@ export const getTodayMedicines = (medicines) => {
       if (period === 'AM' && hours === 12) hours = 0;
 
       const scheduledMinutes = hours * 60 + minutes;
-      const currentSlotStatus = slotStatus[slot] || "PENDING";
+      const currentSlotStatus = getNormalizedSlotStatus(slotStatus, slot);
 
       let status = "Upcoming";
 
-      if (currentSlotStatus === 'TAKEN') {
+      if (currentSlotStatus === 'TAKEN' || currentSlotStatus === 'COMPLETED' || currentSlotStatus === 'DELAYED') {
         status = 'Taken';
       } else if (currentSlotStatus === 'MISSED') {
         status = 'Missed';
@@ -271,10 +286,11 @@ export const calculateAdherence = (medicines) => {
 
   medicines.forEach(med => {
     const slotStatus = med.slotStatus || {};
-    Object.values(slotStatus).forEach(status => {
-      if (status === 'TAKEN' || status === 'MISSED') {
+    Object.values(slotStatus).forEach(val => {
+      const status = String(val || '').toUpperCase();
+      if (status === 'TAKEN' || status === 'COMPLETED' || status === 'DELAYED' || status === 'MISSED') {
         totalDoses++;
-        if (status === 'TAKEN') {
+        if (status === 'TAKEN' || status === 'COMPLETED' || status === 'DELAYED') {
           takenDoses++;
         }
       }

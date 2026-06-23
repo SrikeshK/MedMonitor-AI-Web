@@ -236,7 +236,7 @@ const PatientDetails = () => {
                     <div className="mt-4 flex gap-2">
                       {med.slotStatus && Object.keys(med.slotStatus).map(slot => (
                         <span key={slot} className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase ${
-                          ['TAKEN', 'COMPLETED'].includes(med.slotStatus[slot]) ? 'bg-success/20 text-success' : 'bg-slate-800 text-slate-500'
+                          ['TAKEN', 'COMPLETED', 'DELAYED'].includes(String(med.slotStatus[slot]).toUpperCase()) ? 'bg-success/20 text-success' : 'bg-slate-800 text-slate-500'
                         }`}>
                           {slot}
                         </span>

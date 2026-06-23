@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bad-words": "^4.0.0",
     "chai": "^6.2.2",
     "chromedriver": "^149.0.2",
     "clsx": "^2.1.0",
@@ -26,6 +27,7 @@
     "react-router-dom": "^6.22.0",
     "recharts": "^2.12.0",
     "selenium-webdriver": "^4.44.0",
+    "sentiment": "^5.0.2",
     "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
